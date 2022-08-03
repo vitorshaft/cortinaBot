@@ -30,10 +30,6 @@
 #define IN1 14  //PINO D5
 #define IN2 12  //PINO D6
 
-// Replace with your network credentials
-const char* ssid = "DUARTE DOMINGUES";
-const char* password = "recife2014";
-
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
 DNSServer dns;
@@ -49,11 +45,6 @@ String sliderValue1 = "0";
 int dutyCycle1;
 
 int posicao = 0;
-
-//define your default values here, if there are different values in config.json, they are overwritten.
-char mqtt_server[40];
-char mqtt_port[6] = "8080";
-char blynk_token[34] = "YOUR_BLYNK_TOKEN";
 
 //flag for saving data
 bool shouldSaveConfig = false;
@@ -83,19 +74,6 @@ void initFS() {
   else{
    Serial.println("LittleFS mounted successfully");
   }
-}
-
-// Initialize WiFi
-
-void initWiFi() {
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  Serial.print("Connecting to WiFi ..");
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print('.');
-    delay(1000);
-  }
-  Serial.println(WiFi.localIP());
 }
 
 
@@ -166,24 +144,17 @@ void setup() {
   pinMode(IN2, OUTPUT);
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, LOW);
-  //pinMode(ledPin2, OUTPUT);
-  //pinMode(ledPin3, OUTPUT);
+ 
   initFS();
-  //initWiFi();
+  
 
   //WiFiManager
   //Local intialization. Once its business is done, there is no need to keep it around
   AsyncWiFiManager wifiManager(&server,&dns);
 
-  wifiManager.autoConnect("AutoConnectAP");
-  Serial.println("connected...yeey :)");
-
-  /*
-  WiFiManager wifiManager;
-
   wifiManager.autoConnect("CortinaBot");
-  Serial.println("Conectado.");
-  */
+  Serial.println("Conectado! :3");
+
   initWebSocket();
   
   // Web Server Root URL
